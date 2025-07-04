@@ -28,10 +28,6 @@ public class JwtTokenFilter implements ContainerRequestFilter {
 
     private static final Logger LOGGER = Logger.getLogger(JwtTokenFilter.class.getName());
 
-
-    private static final String DEFAULT_SECRET_KEY = "VGhpc0lzQTMyQnl0ZUxvbmdTZWNyZXRLZXlGb3JKV1Q=";
-    private static final String SECRET_KEY = Optional.ofNullable(System.getenv("SECRET_KEY")).orElse(DEFAULT_SECRET_KEY);
-
     private static final String ERROR_JSON_FORMAT = "{\"error\":\"%s\"}";
 
     public static class TokenValidationException extends Exception {

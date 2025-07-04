@@ -54,7 +54,10 @@ class JwtTokenFilterTest {
         field.set(jwtTokenFilter, funcionalidadService);
         
         when(requestContext.getUriInfo()).thenReturn(uriInfo);
-        key = Keys.hmacShaKeyFor(SecretKeyUtil.getSecretKeyBytes());
+
+
+        key = Keys.hmacShaKeyFor(Base64.getDecoder().decode("VGhpc0lzQTMyQnl0ZUxvbmdTZWNyZXRLZXlGb3JKV1Q="));
+
     }
 
     @Test

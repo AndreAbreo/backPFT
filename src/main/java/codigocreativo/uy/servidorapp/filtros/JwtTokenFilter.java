@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.Optional;
 
 import jakarta.annotation.Priority;
 import jakarta.ejb.EJB;
@@ -26,7 +27,8 @@ import io.jsonwebtoken.security.Keys;
 public class JwtTokenFilter implements ContainerRequestFilter {
 
     private static final Logger LOGGER = Logger.getLogger(JwtTokenFilter.class.getName());
-    private static final String SECRET_KEY = System.getenv("SECRET_KEY");
+    private static final String DEFAULT_SECRET_KEY = "VGhpc0lzQTMyQnl0ZUxvbmdTZWNyZXRLZXlGb3JKV1Q=";
+    private static final String SECRET_KEY = Optional.ofNullable(System.getenv("SECRET_KEY")).orElse(DEFAULT_SECRET_KEY);
     private static final String ERROR_JSON_FORMAT = "{\"error\":\"%s\"}";
 
     public static class TokenValidationException extends Exception {

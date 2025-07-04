@@ -4,8 +4,13 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
   <persistence-unit name="default">
-    <jta-data-source>java:/OracleDS</jta-data-source>
+
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <properties>
+      <property name="jakarta.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver"/>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:oracle:thin:@192.168.1.20:1521:ORCLCDB"/>
+      <property name="jakarta.persistence.jdbc.user" value="PFT"/>
+      <property name="jakarta.persistence.jdbc.password" value="PFT"/>
       <property name="hibernate.hbm2ddl.auto" value=""/>
       <property name="hibernate.show_sql" value="false"/>
       <property name="hibernate.format_sql" value="false"/>

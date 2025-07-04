@@ -21,6 +21,11 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.List;
 import java.util.Date;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collections;
+
+import codigocreativo.uy.servidorapp.jwt.SecretKeyUtil;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -49,7 +54,7 @@ class JwtTokenFilterTest {
         field.set(jwtTokenFilter, funcionalidadService);
         
         when(requestContext.getUriInfo()).thenReturn(uriInfo);
-        key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(System.getenv("SECRET_KEY")));
+        key = Keys.hmacShaKeyFor(SecretKeyUtil.getSecretKeyBytes());
     }
 
     @Test
@@ -298,6 +303,95 @@ class JwtTokenFilterTest {
         Response response = captor.getValue();
         assertEquals(Response.Status.FORBIDDEN.getStatusCode(), response.getStatus());
         assertTrue(response.getEntity().toString().contains("No tiene permisos para modificar usuarios"));
+    }
+
+    @Test
+    void testFilter_EmptySecretKeyEnv_UsesDefaultSecret() throws Exception {
+        setEnv("SECRET_KEY", "");
+        JwtTokenFilter filter = new JwtTokenFilter();
+        Field field = JwtTokenFilter.class.getDeclaredField("funcionalidadService");
+        field.setAccessible(true);
+        field.set(filter, funcionalidadService);
+
+        Key defaultKey = Keys.hmacShaKeyFor(Base64.getDecoder().decode(SecretKeyUtil.DEFAULT_SECRET_KEY));
+        String token = Jwts.builder()
+                .setSubject("testUser")
+                .claim("perfil", "Aux administrativo")
+                .claim("email", "test@example.com")
+                .signWith(defaultKey)
+                .compact();
+
+        FuncionalidadDto funcionalidad = new FuncionalidadDto();
+        funcionalidad.setRuta("/usuarios/listar");
+        PerfilDto perfil = new PerfilDto();
+        perfil.setNombrePerfil("Aux administrativo");
+        funcionalidad.setPerfiles(List.of(perfil));
+
+        when(requestContext.getHeaderString(HttpHeaders.AUTHORIZATION)).thenReturn("Bearer " + token);
+        when(uriInfo.getPath()).thenReturn("/usuarios/listar");
+        when(funcionalidadService.obtenerTodas()).thenReturn(List.of(funcionalidad));
+
+        filter.filter(requestContext);
+
+        verify(requestContext, never()).abortWith(any(Response.class));
+    }
+
+    @Test
+    void testFilter_MalformedSecretKeyEnv_UsesDefaultSecret() throws Exception {
+        setEnv("SECRET_KEY", "%%%not_base64%%%");
+        JwtTokenFilter filter = new JwtTokenFilter();
+        Field field = JwtTokenFilter.class.getDeclaredField("funcionalidadService");
+        field.setAccessible(true);
+        field.set(filter, funcionalidadService);
+
+        Key defaultKey = Keys.hmacShaKeyFor(Base64.getDecoder().decode(SecretKeyUtil.DEFAULT_SECRET_KEY));
+        String token = Jwts.builder()
+                .setSubject("testUser")
+                .claim("perfil", "Aux administrativo")
+                .claim("email", "test@example.com")
+                .signWith(defaultKey)
+                .compact();
+
+        FuncionalidadDto funcionalidad = new FuncionalidadDto();
+        funcionalidad.setRuta("/usuarios/listar");
+        PerfilDto perfil = new PerfilDto();
+        perfil.setNombrePerfil("Aux administrativo");
+        funcionalidad.setPerfiles(List.of(perfil));
+
+        when(requestContext.getHeaderString(HttpHeaders.AUTHORIZATION)).thenReturn("Bearer " + token);
+        when(uriInfo.getPath()).thenReturn("/usuarios/listar");
+        when(funcionalidadService.obtenerTodas()).thenReturn(List.of(funcionalidad));
+
+        filter.filter(requestContext);
+
+        verify(requestContext, never()).abortWith(any(Response.class));
+    }
+
+    private static void setEnv(String key, String value) throws Exception {
+        try {
+            Class<?> pe = Class.forName("java.lang.ProcessEnvironment");
+            Field f = pe.getDeclaredField("theEnvironment");
+            f.setAccessible(true);
+            @SuppressWarnings("unchecked") Map<String, String> env = (Map<String, String>) f.get(null);
+            env.put(key, value);
+            Field f2 = pe.getDeclaredField("theCaseInsensitiveEnvironment");
+            f2.setAccessible(true);
+            @SuppressWarnings("unchecked") Map<String, String> cienv = (Map<String, String>) f2.get(null);
+            if (cienv != null) {
+                cienv.put(key, value);
+            }
+        } catch (NoSuchFieldException ignore) {
+            @SuppressWarnings("unchecked") Map<String, String> env = System.getenv();
+            for (Class<?> cl : Collections.class.getDeclaredClasses()) {
+                if ("java.util.Collections$UnmodifiableMap".equals(cl.getName())) {
+                    Field field = cl.getDeclaredField("m");
+                    field.setAccessible(true);
+                    Object obj = field.get(env);
+                    @SuppressWarnings("unchecked") Map<String, String> map = (Map<String, String>) obj;
+                    map.put(key, value);
+                }
+            }
+        }
     }
 
 }

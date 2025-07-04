@@ -6,15 +6,16 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
+
+import codigocreativo.uy.servidorapp.jwt.SecretKeyUtil;
 
 @Stateless
 public class JwtService {
 
-    // Decodificar la clave secreta en Base64
-    private final Key secretKey = Keys.hmacShaKeyFor(DatatypeConverter.parseBase64Binary(System.getenv("SECRET_KEY")));
+    // Decodificar la clave secreta en Base64 con validación
+    private final Key secretKey = Keys.hmacShaKeyFor(SecretKeyUtil.getSecretKeyBytes());
 
     public String generateToken(String email, String nombrePerfil) {
         try {

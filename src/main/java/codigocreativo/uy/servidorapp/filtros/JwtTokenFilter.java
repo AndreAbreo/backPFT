@@ -1,7 +1,6 @@
 package codigocreativo.uy.servidorapp.filtros;
 
 import java.security.Key;
-import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -21,14 +20,18 @@ import codigocreativo.uy.servidorapp.dtos.FuncionalidadDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import codigocreativo.uy.servidorapp.jwt.SecretKeyUtil;
 
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class JwtTokenFilter implements ContainerRequestFilter {
 
     private static final Logger LOGGER = Logger.getLogger(JwtTokenFilter.class.getName());
+
+
     private static final String DEFAULT_SECRET_KEY = "VGhpc0lzQTMyQnl0ZUxvbmdTZWNyZXRLZXlGb3JKV1Q=";
     private static final String SECRET_KEY = Optional.ofNullable(System.getenv("SECRET_KEY")).orElse(DEFAULT_SECRET_KEY);
+
     private static final String ERROR_JSON_FORMAT = "{\"error\":\"%s\"}";
 
     public static class TokenValidationException extends Exception {
@@ -170,7 +173,7 @@ public class JwtTokenFilter implements ContainerRequestFilter {
 
     protected Claims validateToken(String token) throws TokenValidationException {
         try {
-            Key key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(SECRET_KEY));
+            Key key = Keys.hmacShaKeyFor(SecretKeyUtil.getSecretKeyBytes());
             return Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()

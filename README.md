@@ -24,4 +24,19 @@ Example:
 ```bash
 export DISABLE_JWT_AUTH=true
 mvn package
-``` 
+```
+
+## LDAP configuration
+
+Authentication against Active Directory requires connection details stored in
+`src/main/resources/ldap.properties`. The file contains placeholder values:
+
+```properties
+ldap.url=ldap://ad.example.com:389
+ldap.base_dn=DC=example,DC=com
+ldap.user_dn=CN=serviceuser,OU=Users,DC=example,DC=com
+ldap.password=changeMe
+```
+
+Edit these entries so they match your target AD server URL, base DN, service
+account DN and password.

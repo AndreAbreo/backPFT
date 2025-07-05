@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.Application;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Optional;
 
 @ApplicationPath("/api")
 public class MiApp extends Application {
@@ -36,7 +37,11 @@ public class MiApp extends Application {
         
         // Filtros y configuraciones
         resources.add(AuditoriaFilter.class);
-        resources.add(JwtTokenFilter.class);
+        String disableAuth = Optional.ofNullable(System.getenv("DISABLE_JWT_AUTH"))
+                .orElse("false");
+        if (!"true".equalsIgnoreCase(disableAuth)) {
+            resources.add(JwtTokenFilter.class);
+        }
         resources.add(CORSFilter.class);
         resources.add(JacksonConfig.class);
         

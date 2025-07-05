@@ -55,6 +55,14 @@ public class JwtTokenFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) {
+        String disableAuth = Optional.ofNullable(System.getenv("DISABLE_JWT_AUTH"))
+                .orElse("false");
+
+        if ("true".equalsIgnoreCase(disableAuth)) {
+            LOGGER.warning("JWT authentication disabled via DISABLE_JWT_AUTH");
+            return;
+        }
+
         String path = requestContext.getUriInfo().getPath();
         LOGGER.info("Procesando petición para el path: " + path);
 

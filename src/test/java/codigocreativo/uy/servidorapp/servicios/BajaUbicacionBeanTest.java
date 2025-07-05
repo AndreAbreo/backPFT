@@ -32,7 +32,7 @@ class BajaUbicacionBeanTest {
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
-        bean = new BajaUbicacionBean(bajaUbicacionMapper, ubicacionMapper);
+        bean = new BajaUbicacionBean();
         
         // Inyectar mocks usando reflexión
         Field emField = BajaUbicacionBean.class.getDeclaredField("em");
@@ -42,6 +42,14 @@ class BajaUbicacionBeanTest {
         Field ubicacionBeanField = BajaUbicacionBean.class.getDeclaredField("ubicacionBean");
         ubicacionBeanField.setAccessible(true);
         ubicacionBeanField.set(bean, ubicacionBean);
+
+        Field bajaMapperField = BajaUbicacionBean.class.getDeclaredField("bajaUbicacionMapper");
+        bajaMapperField.setAccessible(true);
+        bajaMapperField.set(bean, bajaUbicacionMapper);
+
+        Field ubiMapperField = BajaUbicacionBean.class.getDeclaredField("ubicacionMapper");
+        ubiMapperField.setAccessible(true);
+        ubiMapperField.set(bean, ubicacionMapper);
     }
 
     @Test

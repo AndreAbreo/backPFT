@@ -38,12 +38,16 @@ class FuncionalidadBeanTest {
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
 
-        funcionalidadBean = new FuncionalidadBean(funcionalidadMapper);
+        funcionalidadBean = new FuncionalidadBean();
 
         // Inyectar el EntityManager usando reflexión
         Field emField = FuncionalidadBean.class.getDeclaredField("em");
         emField.setAccessible(true);
         emField.set(funcionalidadBean, em);
+
+        Field mapperField = FuncionalidadBean.class.getDeclaredField("funcionalidadMapper");
+        mapperField.setAccessible(true);
+        mapperField.set(funcionalidadBean, funcionalidadMapper);
     }
 
     @Test

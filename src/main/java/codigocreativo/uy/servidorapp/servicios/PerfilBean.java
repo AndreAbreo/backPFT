@@ -20,11 +20,10 @@ public class PerfilBean implements PerfilRemote {
     
     @PersistenceContext(unitName = "default")
     private EntityManager em;
-    private final PerfilMapper perfilMapper;
-
     @Inject
-    public PerfilBean(PerfilMapper perfilMapper) {
-        this.perfilMapper = perfilMapper;
+    private PerfilMapper perfilMapper;
+
+    public PerfilBean() {
     }
 
     @Override

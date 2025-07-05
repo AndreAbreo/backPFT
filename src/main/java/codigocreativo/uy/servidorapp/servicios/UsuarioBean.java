@@ -22,11 +22,10 @@ import java.util.Map;
 public class UsuarioBean implements UsuarioRemote {
     @PersistenceContext (unitName = "default")
     private EntityManager em;
-    private final UsuarioMapper usuarioMapper;
-
     @Inject
-    public UsuarioBean(UsuarioMapper usuarioMapper) {
-        this.usuarioMapper = usuarioMapper;
+    private UsuarioMapper usuarioMapper;
+
+    public UsuarioBean() {
     }
 
     private static final String EMAIL = "email";

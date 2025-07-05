@@ -39,12 +39,20 @@ class InstitucionBeanTest {
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
 
-        institucionBean = new InstitucionBean(institucionMapper, ubicacionMapper);
+        institucionBean = new InstitucionBean();
 
         // Inyectar el EntityManager usando reflexión
         Field emField = InstitucionBean.class.getDeclaredField("em");
         emField.setAccessible(true);
         emField.set(institucionBean, em);
+
+        Field instMapperField = InstitucionBean.class.getDeclaredField("institucionMapper");
+        instMapperField.setAccessible(true);
+        instMapperField.set(institucionBean, institucionMapper);
+
+        Field ubiMapperField = InstitucionBean.class.getDeclaredField("ubicacionMapper");
+        ubiMapperField.setAccessible(true);
+        ubiMapperField.set(institucionBean, ubicacionMapper);
     }
 
     @Test

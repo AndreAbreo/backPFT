@@ -29,12 +29,16 @@ class OperacionBeanTest {
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
 
-        operacionBean = new OperacionBean(operacionMapper);
+        operacionBean = new OperacionBean();
 
         // Inyectar el EntityManager usando reflexión
         Field emField = OperacionBean.class.getDeclaredField("em");
         emField.setAccessible(true);
         emField.set(operacionBean, em);
+
+        Field mapperField = OperacionBean.class.getDeclaredField("operacionMapper");
+        mapperField.setAccessible(true);
+        mapperField.set(operacionBean, operacionMapper);
     }
 
     @Test

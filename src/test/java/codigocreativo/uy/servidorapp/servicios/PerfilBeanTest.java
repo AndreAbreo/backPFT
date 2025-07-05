@@ -36,12 +36,16 @@ class PerfilBeanTest {
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
-        perfilBean = new PerfilBean(perfilMapper);
+        perfilBean = new PerfilBean();
 
         // Use reflection to set the private EntityManager field
         Field emField = PerfilBean.class.getDeclaredField("em");
         emField.setAccessible(true);
         emField.set(perfilBean, em);
+
+        Field mapperField = PerfilBean.class.getDeclaredField("perfilMapper");
+        mapperField.setAccessible(true);
+        mapperField.set(perfilBean, perfilMapper);
     }
 
     @Test

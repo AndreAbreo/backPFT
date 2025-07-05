@@ -19,13 +19,12 @@ import java.util.List;
 public class UbicacionBean implements UbicacionRemote {
     @PersistenceContext(unitName = "default")
     private EntityManager em;
-    private final UbicacionMapper ubicacionMapper;
-    private final EquipoMapper equipoMapper;
-
     @Inject
-    public UbicacionBean(UbicacionMapper ubicacionMapper, EquipoMapper equipoMapper) {
-        this.ubicacionMapper = ubicacionMapper;
-        this.equipoMapper = equipoMapper;
+    private UbicacionMapper ubicacionMapper;
+    @Inject
+    private EquipoMapper equipoMapper;
+
+    public UbicacionBean() {
     }
 
     @Override

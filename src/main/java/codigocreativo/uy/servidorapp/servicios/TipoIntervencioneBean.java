@@ -14,11 +14,10 @@ import java.util.List;
 public class TipoIntervencioneBean implements TipoIntervencioneRemote {
     @PersistenceContext(unitName = "default")
     private EntityManager em;
-    private final TiposIntervencioneMapper tiposIntervencioneMapper;
-
     @Inject
-    public TipoIntervencioneBean(TiposIntervencioneMapper tiposIntervencioneMapper) {
-        this.tiposIntervencioneMapper = tiposIntervencioneMapper;
+    private TiposIntervencioneMapper tiposIntervencioneMapper;
+
+    public TipoIntervencioneBean() {
     }
 
     @Override

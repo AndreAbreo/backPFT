@@ -15,11 +15,10 @@ import java.util.List;
 public class MarcasModeloBean implements MarcasModeloRemote{
     @PersistenceContext (unitName = "default")
     private EntityManager em;
-    private final MarcasModeloMapper marcasModeloMapper;
-
     @Inject
-    public MarcasModeloBean(MarcasModeloMapper marcasModeloMapper) {
-        this.marcasModeloMapper = marcasModeloMapper;
+    private MarcasModeloMapper marcasModeloMapper;
+
+    public MarcasModeloBean() {
     }
 
     @Override

@@ -15,11 +15,10 @@ import java.util.List;
 public class ProveedoresEquipoBean implements ProveedoresEquipoRemote {
     @PersistenceContext(unitName = "default")
     private EntityManager em;
-    private final ProveedoresEquipoMapper proveedoresEquipoMapper;
-
     @Inject
-    public ProveedoresEquipoBean(ProveedoresEquipoMapper proveedoresEquipoMapper) {
-        this.proveedoresEquipoMapper = proveedoresEquipoMapper;
+    private ProveedoresEquipoMapper proveedoresEquipoMapper;
+
+    public ProveedoresEquipoBean() {
     }
 
     @Override

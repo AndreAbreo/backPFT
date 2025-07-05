@@ -45,7 +45,7 @@ class BajaEquipoBeanTest {
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
-        bajaEquipoBean = new BajaEquipoBean(bajaEquipoMapper);
+        bajaEquipoBean = new BajaEquipoBean();
 
         // Inyectar el EntityManager usando reflexión
         Field emField = BajaEquipoBean.class.getDeclaredField("em");
@@ -61,6 +61,10 @@ class BajaEquipoBeanTest {
         Field equipoRemoteField = BajaEquipoBean.class.getDeclaredField("equipoRemote");
         equipoRemoteField.setAccessible(true);
         equipoRemoteField.set(bajaEquipoBean, equipoRemote);
+
+        Field mapperField = BajaEquipoBean.class.getDeclaredField("bajaEquipoMapper");
+        mapperField.setAccessible(true);
+        mapperField.set(bajaEquipoBean, bajaEquipoMapper);
     }
 
     @Test

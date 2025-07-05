@@ -37,11 +37,10 @@ public class EquipoBean implements EquipoRemote {
     @PersistenceContext(unitName = "default")
     private EntityManager em;
 
-    private final EquipoMapper equipoMapper;
-
     @Inject
-    public EquipoBean(EquipoMapper equipoMapper) {
-        this.equipoMapper = equipoMapper;
+    private EquipoMapper equipoMapper;
+
+    public EquipoBean() {
     }
 
     @Override

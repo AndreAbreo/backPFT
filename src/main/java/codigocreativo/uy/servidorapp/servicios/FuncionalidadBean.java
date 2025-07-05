@@ -24,11 +24,10 @@ public class FuncionalidadBean implements FuncionalidadRemote {
     
     @PersistenceContext(unitName = "default")
     private EntityManager em;
-    private final FuncionalidadMapper funcionalidadMapper;
-
     @Inject
-    public FuncionalidadBean(FuncionalidadMapper funcionalidadMapper) {
-        this.funcionalidadMapper = funcionalidadMapper;
+    private FuncionalidadMapper funcionalidadMapper;
+
+    public FuncionalidadBean() {
     }
 
     @Override

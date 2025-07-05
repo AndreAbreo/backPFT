@@ -17,11 +17,10 @@ public class AuditoriaBean implements AuditoriaRemote{
     @PersistenceContext (unitName = "default")
     private EntityManager em;
 
-    private final AuditoriaMapper auditoriaMapper;
-
     @Inject
-    public AuditoriaBean(AuditoriaMapper auditoriaMapper) {
-        this.auditoriaMapper = auditoriaMapper;
+    private AuditoriaMapper auditoriaMapper;
+
+    public AuditoriaBean() {
     }
 
     @Override

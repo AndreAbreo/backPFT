@@ -20,11 +20,10 @@ import java.util.stream.Collectors;
 public class IntervencionBean implements IntervencionRemote {
     @PersistenceContext(unitName = "default")
     private EntityManager em;
-    private final IntervencionMapper intervencionMapper;
-
     @Inject //Se inyecta el mapper
-    public IntervencionBean(IntervencionMapper intervencionMapper) {
-        this.intervencionMapper = intervencionMapper;
+    private IntervencionMapper intervencionMapper;
+
+    public IntervencionBean() {
     }
 
     @Override

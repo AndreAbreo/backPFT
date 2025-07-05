@@ -41,12 +41,16 @@ class IntervencionBeanTest {
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
 
-        intervencionBean = new IntervencionBean(intervencionMapper);
+        intervencionBean = new IntervencionBean();
 
         // Inyectar el EntityManager usando reflexión
         Field emField = IntervencionBean.class.getDeclaredField("em");
         emField.setAccessible(true);
         emField.set(intervencionBean, em);
+
+        Field mapperField = IntervencionBean.class.getDeclaredField("intervencionMapper");
+        mapperField.setAccessible(true);
+        mapperField.set(intervencionBean, intervencionMapper);
     }
 
     @Test

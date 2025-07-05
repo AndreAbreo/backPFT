@@ -34,12 +34,16 @@ class ModelosEquipoBeanTest {
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
-        modelosEquipoBean = new ModelosEquipoBean(modelosEquipoMapper);
+        modelosEquipoBean = new ModelosEquipoBean();
 
         // Utiliza reflexión para asignar el EntityManager privado
         Field emField = ModelosEquipoBean.class.getDeclaredField("em");
         emField.setAccessible(true);
         emField.set(modelosEquipoBean, em);
+
+        Field mapperField = ModelosEquipoBean.class.getDeclaredField("modelosEquipoMapper");
+        mapperField.setAccessible(true);
+        mapperField.set(modelosEquipoBean, modelosEquipoMapper);
     }
 
     @Test

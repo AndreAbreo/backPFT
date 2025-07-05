@@ -14,11 +14,10 @@ import java.util.List;
 public class ModelosEquipoBean implements ModelosEquipoRemote {
     @PersistenceContext(unitName = "default")
     private EntityManager em;
-    private final ModelosEquipoMapper modelosEquipoMapper;
-
     @Inject
-    public ModelosEquipoBean(ModelosEquipoMapper modelosEquipoMapper) {
-        this.modelosEquipoMapper = modelosEquipoMapper;
+    private ModelosEquipoMapper modelosEquipoMapper;
+
+    public ModelosEquipoBean() {
     }
 
     @Override

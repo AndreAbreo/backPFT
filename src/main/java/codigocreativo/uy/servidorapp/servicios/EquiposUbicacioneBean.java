@@ -15,11 +15,10 @@ import java.util.List;
 public class EquiposUbicacioneBean implements EquiposUbicacioneRemote {
     @PersistenceContext(unitName = "default")
     private EntityManager em;
-    private final EquiposUbicacioneMapper equiposUbicacioneMapper;
-
     @Inject
-    public EquiposUbicacioneBean(EquiposUbicacioneMapper equiposUbicacioneMapper) {
-        this.equiposUbicacioneMapper = equiposUbicacioneMapper;
+    private EquiposUbicacioneMapper equiposUbicacioneMapper;
+
+    public EquiposUbicacioneBean() {
     }
 
     @Override

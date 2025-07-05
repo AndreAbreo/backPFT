@@ -17,13 +17,12 @@ public class InstitucionBean implements InstitucionRemote{
 
     @PersistenceContext (unitName = "default")
     private EntityManager em;
-    private final InstitucionMapper institucionMapper;
-    private final UbicacionMapper ubicacionMapper;
-
     @Inject //Se inyecta el mapper
-    public InstitucionBean(InstitucionMapper institucionMapper, UbicacionMapper ubicacionMapper) {
-        this.institucionMapper = institucionMapper;
-        this.ubicacionMapper = ubicacionMapper;
+    private InstitucionMapper institucionMapper;
+    @Inject
+    private UbicacionMapper ubicacionMapper;
+
+    public InstitucionBean() {
     }
 
     @Override

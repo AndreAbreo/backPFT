@@ -24,18 +24,12 @@ public class BajaUbicacionBean implements BajaUbicacionRemote {
     @PersistenceContext(unitName = "default")
     EntityManager em;
 
-    private final BajaUbicacionMapper bajaUbicacionMapper;
-    private final UbicacionMapper ubicacionMapper;
+    @Inject
+    private BajaUbicacionMapper bajaUbicacionMapper;
+    @Inject
+    private UbicacionMapper ubicacionMapper;
 
-    // Public no-argument constructor
     public BajaUbicacionBean() {
-        this.bajaUbicacionMapper = null;
-        this.ubicacionMapper = null;
-    }
-
-    public BajaUbicacionBean(BajaUbicacionMapper bajaUbicacionMapper, UbicacionMapper ubicacionMapper) {
-        this.bajaUbicacionMapper = bajaUbicacionMapper;
-        this.ubicacionMapper = ubicacionMapper;
     }
 
     @EJB

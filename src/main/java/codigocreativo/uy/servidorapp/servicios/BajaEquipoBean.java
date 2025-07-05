@@ -33,7 +33,8 @@ public class BajaEquipoBean implements BajaEquipoRemote {
     @PersistenceContext(unitName = "default")
     private EntityManager em;
     
-    private final BajaEquipoMapper bajaEquipoMapper;
+    @Inject
+    private BajaEquipoMapper bajaEquipoMapper;
     
     @EJB
     private UsuarioRemote usuarioRemote;
@@ -41,9 +42,7 @@ public class BajaEquipoBean implements BajaEquipoRemote {
     @EJB
     private EquipoRemote equipoRemote;
     
-    @Inject
-    public BajaEquipoBean(BajaEquipoMapper bajaEquipoMapper) {
-        this.bajaEquipoMapper = bajaEquipoMapper;
+    public BajaEquipoBean() {
     }
     
     @Override

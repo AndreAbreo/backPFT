@@ -33,12 +33,16 @@ class TiposEquipoBeanTest {
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
 
-        tiposEquipoBean = new TiposEquipoBean(tiposEquipoMapper);
+        tiposEquipoBean = new TiposEquipoBean();
 
         // Inyectar el EntityManager usando reflexión
         Field emField = TiposEquipoBean.class.getDeclaredField("em");
         emField.setAccessible(true);
         emField.set(tiposEquipoBean, em);
+
+        Field mapperField = TiposEquipoBean.class.getDeclaredField("tiposEquipoMapper");
+        mapperField.setAccessible(true);
+        mapperField.set(tiposEquipoBean, tiposEquipoMapper);
     }
 
     @Test
